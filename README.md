@@ -1,0 +1,2 @@
+# Leeloo LXP Departments
+This tool is used to create department on your Leeloo LXP install for every course you wish. The teachers in that course will become support peoples and students will become customers.
