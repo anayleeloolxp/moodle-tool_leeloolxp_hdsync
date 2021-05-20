@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *
+ * Admin settings and defaults
  *
  * @package    tool_leeloolxp_hdsync
  * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
@@ -39,8 +39,6 @@ $postcourses = optional_param('courses', null, PARAM_RAW);
 $leeloolicensekey = get_config('tool_leeloolxp_hdsync', 'leeloolicensekey');
 
 $leeloobase = 'https://leeloolxp.com/api/moodle_departments_plugin/';
-
-$encrypt_licensekey = base64_encode($leeloolicensekey);
 
 if ($postcourses) {
     foreach ($postcourses as $postcourseid => $postcourse) {
@@ -146,7 +144,7 @@ if ($postcourses) {
     }
 }
 
-$courses = $DB->get_records_sql('SELECT c.id,c.fullname,wd.enabled FROM {course} as c LEFT JOIN {tool_leeloolxp_hdsync} as wd ON c.id = wd.courseid ORDER BY c.id ASC');
+$courses = $DB->get_records_sql('SELECT c.id,c.fullname,wd.enabled FROM {course} c LEFT JOIN {tool_leeloolxp_hdsync} wd ON c.id = wd.courseid ORDER BY c.id ASC');
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading_with_help(get_string('leeloolxp_hdsync', 'tool_leeloolxp_hdsync'), 'leeloolxp_hdsync', 'tool_leeloolxp_hdsync');
@@ -161,12 +159,14 @@ if (!empty($courses)) {
         $coursefullname = $course->fullname;
         $courseenabled = $course->enabled;
         if ($courseenabled == 1) {
-            $checkbox_checked = 'checked';
+            $checkboxchecked = 'checked';
         } else {
-            $checkbox_checked = '';
+            $checkboxchecked = '';
         }
         echo '<li>';
-        echo "<input type='hidden' value='0' name='courses[$courseid]'><input $checkbox_checked id='course_$courseid' type='checkbox' name='courses[$courseid]' value='1'><label for='course_$courseid'>$coursefullname</label>";
+        echo "<input type='hidden' value='0' name='courses[$courseid]'>";
+        echo "<input $checkboxchecked id='course_$courseid' type='checkbox' name='courses[$courseid]' value='1'>";
+        echo "<label for='course_$courseid'>$coursefullname</label>";
         echo '</li>';
     }
     echo '</ul><button type="submit" value="Save and Create Departments">Submit</button></form>';
