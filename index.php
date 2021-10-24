@@ -26,6 +26,7 @@
 define('NO_OUTPUT_BUFFERING', true);
 
 require(__DIR__ . '/../../../config.php');
+global $CFG;
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/lib/filelib.php');
 
