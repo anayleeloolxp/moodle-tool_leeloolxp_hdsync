@@ -80,7 +80,7 @@ if ($postcourses) {
         }
 
         if ($postcourse == 1) {
-            $hdourse = $DB->get_record_sql('SELECT COUNT(*) as countcourse FROM {tool_leeloolxp_hdsync} WHERE courseid = ?', [$postcourseid]);
+            $hdourse = $DB->get_record_sql('SELECT COUNT(*) countcourse FROM {tool_leeloolxp_hdsync} WHERE courseid = ?', [$postcourseid]);
 
             if ($hdourse->countcourse == 0) {
                 $course = $DB->get_record_sql('SELECT fullname FROM {course} where id = ?', [$postcourseid]);
