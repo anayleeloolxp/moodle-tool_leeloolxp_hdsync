@@ -48,10 +48,10 @@ if ($postcourses) {
         $teachers = json_encode(get_role_users($role->id, $context));
 
         if ($postcourse == 0) {
-            $leeloodept = $DB->get_record_sql('SELECT deptid FROM {tool_leeloolxp_hdsync} WHERE courseid = ?', [$postcourseid]);
+            $leeloodept = $DB->get_record_sql("SELECT deptid FROM {tool_leeloolxp_hdsync} WHERE courseid = ?", [$postcourseid]);
 
             $deptid = $leeloodept->deptid;
-            $course = $DB->get_record_sql('SELECT fullname FROM {course} where id = ?', [$postcourseid]);
+            $course = $DB->get_record_sql("SELECT fullname FROM {course} where id = ?", [$postcourseid]);
 
             $post = [
                 'license_key' => base64_encode($leeloolicensekey),
@@ -80,10 +80,10 @@ if ($postcourses) {
         }
 
         if ($postcourse == 1) {
-            $hdourse = $DB->get_record_sql('SELECT COUNT(*) countcourse FROM {tool_leeloolxp_hdsync} WHERE courseid = ?', [$postcourseid]);
+            $hdourse = $DB->get_record_sql("SELECT COUNT(*) countcourse FROM {tool_leeloolxp_hdsync} WHERE courseid = ?", [$postcourseid]);
 
             if ($hdourse->countcourse == 0) {
-                $course = $DB->get_record_sql('SELECT fullname FROM {course} where id = ?', [$postcourseid]);
+                $course = $DB->get_record_sql("SELECT fullname FROM {course} where id = ?", [$postcourseid]);
 
                 $post = [
                     'license_key' => base64_encode($leeloolicensekey),
@@ -111,10 +111,10 @@ if ($postcourses) {
                 }
             } else {
 
-                $leeloodept = $DB->get_record_sql('SELECT deptid FROM {tool_leeloolxp_hdsync} WHERE courseid = ?', [$postcourseid]);
+                $leeloodept = $DB->get_record_sql("SELECT deptid FROM {tool_leeloolxp_hdsync} WHERE courseid = ?", [$postcourseid]);
 
                 $deptid = $leeloodept->deptid;
-                $course = $DB->get_record_sql('SELECT fullname FROM {course} where id = ?', [$postcourseid]);
+                $course = $DB->get_record_sql("SELECT fullname FROM {course} where id = ?", [$postcourseid]);
 
                 $post = [
                     'license_key' => base64_encode($leeloolicensekey),
@@ -145,7 +145,7 @@ if ($postcourses) {
     }
 }
 
-$courses = $DB->get_records_sql('SELECT c.id,c.fullname,wd.enabled FROM {course} c LEFT JOIN {tool_leeloolxp_hdsync} wd ON c.id = wd.courseid ORDER BY c.id ASC');
+$courses = $DB->get_records_sql("SELECT c.id,c.fullname,wd.enabled FROM {course} c LEFT JOIN {tool_leeloolxp_hdsync} wd ON c.id = wd.courseid ORDER BY c.id ASC");
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading_with_help(get_string('leeloolxp_hdsync', 'tool_leeloolxp_hdsync'), 'leeloolxp_hdsync', 'tool_leeloolxp_hdsync');

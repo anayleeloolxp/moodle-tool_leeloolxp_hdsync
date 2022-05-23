@@ -34,8 +34,11 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtext('tool_leeloolxp_hdsync/leeloolicensekey', $name, $description, $default));
 
     // Link to Course Archiver tool.
-    $ADMIN->add('courses', new admin_externalpage('toolleeloolxp_hdsync',
-        get_string('leeloolxp_hdsync', 'tool_leeloolxp_hdsync'), "$CFG->wwwroot/$CFG->admin/tool/leeloolxp_hdsync/index.php"));
+    $ADMIN->add('courses', new admin_externalpage(
+        'toolleeloolxp_hdsync',
+        get_string('leeloolxp_hdsync', 'tool_leeloolxp_hdsync'),
+        "$CFG->wwwroot/$CFG->admin/tool/leeloolxp_hdsync/index.php"
+    ));
 
     // Add the category to the admin tree.
     $ADMIN->add('tools', $settings);

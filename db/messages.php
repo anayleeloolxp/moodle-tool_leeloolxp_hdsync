@@ -24,8 +24,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-$messageproviders = array (
-    'courseowner' => array (
+$messageproviders = array(
+    'courseowner' => array(
         'capability'  => 'moodle/course:update'
     )
 );
