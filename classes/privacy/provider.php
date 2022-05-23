@@ -27,8 +27,6 @@ namespace tool_leeloolxp_hdsync\privacy;
 
 use core_privacy\local\metadata\collection;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Provider implementation for tool_leeloolxp_hdsync.
  *
