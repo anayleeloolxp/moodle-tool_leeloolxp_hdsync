@@ -44,7 +44,7 @@ $leeloobase = 'https://leeloolxp.com/api/moodle_departments_plugin/';
 if ($postcourses) {
     foreach ($postcourses as $postcourseid => $postcourse) {
         $role = $DB->get_record('role', array('shortname' => 'editingteacher'));
-        $context = get_context_instance(CONTEXT_COURSE, $postcourseid);
+        $context = context_course::instance($postcourseid);
         $teachers = json_encode(get_role_users($role->id, $context));
 
         if ($postcourse == 0) {
@@ -53,38 +53,40 @@ if ($postcourses) {
                 [$postcourseid]
             );
 
-            $deptid = $leeloodept->deptid;
-            $course = $DB->get_record_sql(
-                "SELECT fullname FROM {course} where id = ?",
-                [$postcourseid]
-            );
-
-            $post = [
-                'license_key' => base64_encode($leeloolicensekey),
-                'action' => base64_encode('update'),
-                'deptid' => base64_encode($deptid),
-                'coursename' => base64_encode($course->fullname),
-                'status' => base64_encode('0'),
-                'teachers' => ($teachers),
-            ];
-
-            $url = $leeloobase . 'sync_department.php';
-            $curl = new curl;
-            $options = array(
-                'CURLOPT_RETURNTRANSFER' => true,
-                'CURLOPT_HEADER' => false,
-                'CURLOPT_POST' => count($post),
-                'CURLOPT_POSTFIELDS' => $post,
-            );
-
-            $response = $curl->post($url, $post, $options);
-
-            $infoleeloo = json_decode($response);
-            if ($infoleeloo->status == 'true') {
-                $DB->execute(
-                    "UPDATE {tool_leeloolxp_hdsync} SET enabled = 0 WHERE courseid = ?",
+            if (isset($leeloodept->deptid) && isset($leeloodept->deptid) != '') {
+                $deptid = $leeloodept->deptid;
+                $course = $DB->get_record_sql(
+                    "SELECT fullname FROM {course} where id = ?",
                     [$postcourseid]
                 );
+
+                $post = [
+                    'license_key' => base64_encode($leeloolicensekey),
+                    'action' => base64_encode('update'),
+                    'deptid' => base64_encode($deptid),
+                    'coursename' => base64_encode($course->fullname),
+                    'status' => base64_encode('0'),
+                    'teachers' => ($teachers),
+                ];
+
+                $url = $leeloobase . 'sync_department.php';
+                $curl = new curl;
+                $options = array(
+                    'CURLOPT_RETURNTRANSFER' => true,
+                    'CURLOPT_HEADER' => false,
+                    'CURLOPT_POST' => count($post),
+                    'CURLOPT_POSTFIELDS' => $post,
+                );
+
+                $response = $curl->post($url, $post, $options);
+
+                $infoleeloo = json_decode($response);
+                if ($infoleeloo->status == 'true') {
+                    $DB->execute(
+                        "UPDATE {tool_leeloolxp_hdsync} SET enabled = 0 WHERE courseid = ?",
+                        [$postcourseid]
+                    );
+                }
             }
         }
 
